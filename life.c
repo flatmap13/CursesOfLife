@@ -17,12 +17,16 @@ int main(void)
 	noecho();
 	cbreak();
 	curs_set(0);
+	start_color();
+	init_pair(1, COLOR_CYAN, COLOR_BLACK);
 
 	bool world[LINES * COLS];
 	init_world(world);
 	int ch;
 	while((ch = getch()) != 'q') {
+		attron(COLOR_PAIR(1));
 		draw_world(world);
+		attroff(COLOR_PAIR(1));
 		update_world(world);
 		refresh();
 	}
@@ -44,13 +48,11 @@ void init_world(bool *world)
 
 void draw_world(bool *world)
 {
+	char chars[2] = {' ', 'O'};
 	int y, x;
 	for(y = 0; y < LINES; y++) {
 		for(x = 0; x < COLS; x++) {
-			if(world[POS(x, y)])
-				mvprintw(y, x, "%d", world[POS(x, y)]);
-			else
-				mvprintw(y, x, " ");
+			mvprintw(y, x, "%c", chars[world[POS(x, y)]]);
 		}
 	}
 }
