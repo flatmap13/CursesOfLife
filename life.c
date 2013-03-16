@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define POS(X,Y)	Y * COLS + X
 
@@ -17,6 +18,7 @@ int main(void)
 	noecho();
 	cbreak();
 	curs_set(0);
+	nodelay(stdscr, TRUE);
 	start_color();
 	init_pair(1, COLOR_CYAN, COLOR_BLACK);
 
@@ -24,11 +26,15 @@ int main(void)
 	init_world(world);
 	int ch;
 	while((ch = getch()) != 'q') {
+		clock_t start = clock();
+
 		attron(COLOR_PAIR(1));
 		draw_world(world);
 		attroff(COLOR_PAIR(1));
 		update_world(world);
 		refresh();
+
+		while((clock() - start) * 1000 / CLOCKS_PER_SEC < 1000/30) { }
 	}
 
 	clrtoeol();
@@ -50,11 +56,9 @@ void draw_world(bool *world)
 {
 	char chars[2] = {' ', 'O'};
 	int y, x;
-	for(y = 0; y < LINES; y++) {
-		for(x = 0; x < COLS; x++) {
+	for(y = 0; y < LINES; y++)
+		for(x = 0; x < COLS; x++)
 			mvprintw(y, x, "%c", chars[world[POS(x, y)]]);
-		}
-	}
 }
 
 void update_world(bool *world)
@@ -76,7 +80,7 @@ void update_world(bool *world)
 
 int count_neighbours(bool *world, int x, int y)
 {
-	int r = get_pos(world, x-1, y-1) +
+	return get_pos(world, x-1, y-1) +
 		get_pos(world, x, y-1) +
 		get_pos(world, x+1, y-1) +
 		get_pos(world, x-1, y) +
@@ -84,7 +88,6 @@ int count_neighbours(bool *world, int x, int y)
 		get_pos(world, x-1, y+1) +
 		get_pos(world, x, y+1) +
 		get_pos(world, x+1, y+1); 
-	return r;
 }
 
 bool get_pos(bool *world, int x, int y)
