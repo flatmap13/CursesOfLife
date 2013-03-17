@@ -5,6 +5,7 @@
 #define POS(X,Y)	Y * _width + X
 
 void init_params(void);
+void lock_fps(clock_t start, int fps);
 void show_info(const bool *world);
 void init_world(bool *world);
 void draw_world(const bool *world);

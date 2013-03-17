@@ -29,8 +29,7 @@ int main(void)
 		attroff(COLOR_PAIR(1));
 		update_world(world);
 		refresh();
-
-		while((clock() - start) * 1000 / CLOCKS_PER_SEC < 1000/30);
+		lock_fps(start, 30);
 	}
 
 	clrtoeol();
@@ -44,6 +43,14 @@ void init_params(void)
 	getmaxyx(stdscr, _height, _width);
 	_height -= 2;
 	_num_cells = _height * _width;
+}
+
+void lock_fps(clock_t start, int fps)
+{
+	struct timespec delay;
+	delay.tv_sec = 0;
+	delay.tv_nsec = 1000000000/fps - (clock() - start) * 1000000000 / CLOCKS_PER_SEC;
+	nanosleep(&delay, NULL);
 }
 
 void show_info(const bool *world)
