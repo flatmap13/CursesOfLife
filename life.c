@@ -1,18 +1,4 @@
-#include <ncurses.h>
-#include <stdlib.h>
-#include <time.h>
-
-#define WIDTH		COLS
-#define HEIGHT		LINES - 2
-#define NUM_CELLS	WIDTH * HEIGHT
-#define POS(X,Y)	Y * COLS + X
-
-void show_info(void);
-void init_world(bool *world);
-void draw_world(bool *world);
-void update_world(bool *world);
-int count_neighbours(bool *world, int x, int y);
-bool get_pos(bool *world, int x, int y);
+#include "life.h"
 
 int main(void)
 {
@@ -91,17 +77,17 @@ void update_world(bool *world)
 
 int count_neighbours(bool *world, int x, int y)
 {
-	return get_pos(world, x-1, y-1) +
-		get_pos(world, x, y-1) +
-		get_pos(world, x+1, y-1) +
-		get_pos(world, x-1, y) +
-		get_pos(world, x+1, y) +
-		get_pos(world, x-1, y+1) +
-		get_pos(world, x, y+1) +
-		get_pos(world, x+1, y+1); 
+	return get_cell(world, x-1, y-1) +
+		get_cell(world, x, y-1) +
+		get_cell(world, x+1, y-1) +
+		get_cell(world, x-1, y) +
+		get_cell(world, x+1, y) +
+		get_cell(world, x-1, y+1) +
+		get_cell(world, x, y+1) +
+		get_cell(world, x+1, y+1); 
 }
 
-bool get_pos(bool *world, int x, int y)
+bool get_cell(bool *world, int x, int y)
 {
 	return world[POS(x,y)];
 }
