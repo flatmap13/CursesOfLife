@@ -39,7 +39,7 @@ int main(void)
 	return 0;
 }
 
-void show_info(bool *world)
+void show_info(const bool *world)
 {
 	int num_alive = 0, n;
 	for(n = 0; n < NUM_CELLS; n++)
@@ -58,7 +58,7 @@ void init_world(bool *world)
 		world[n] = rand() % 2;
 }
 
-void draw_world(bool *world)
+void draw_world(const bool *world)
 {
 	char chars[2] = {' ', 'O'};
 	int y, x;
@@ -84,7 +84,7 @@ void update_world(bool *world)
 		world[n] = new_world[n];
 }
 
-int count_neighbours(bool *world, int x, int y)
+int count_neighbours(const bool *world, const int x, const int y)
 {
 	return get_cell(world, x-1, y-1) +
 		get_cell(world, x, y-1) +
@@ -96,7 +96,8 @@ int count_neighbours(bool *world, int x, int y)
 		get_cell(world, x+1, y+1); 
 }
 
-bool get_cell(bool *world, int x, int y)
+bool get_cell(const bool *world, const int x, const int y)
 {
 	return world[POS(x,y)];
 }
+
