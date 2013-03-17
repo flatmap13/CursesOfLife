@@ -7,7 +7,7 @@
 #define NUM_CELLS	WIDTH * HEIGHT
 #define POS(X,Y)	Y * COLS + X
 
-void show_info(void);
+void show_info(bool *world);
 void init_world(bool *world);
 void draw_world(bool *world);
 void update_world(bool *world);

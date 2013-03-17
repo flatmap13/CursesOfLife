@@ -11,8 +11,7 @@ int main(void)
 	nodelay(stdscr, TRUE);
 	start_color();
 	init_pair(1, COLOR_CYAN, COLOR_BLACK);
-	init_pair(2, COLOR_BLACK, COLOR_GREEN);
-	show_info();
+	init_pair(2, COLOR_GREEN, COLOR_BLUE);
 
 	bool world[NUM_CELLS];
 	init_world(world);
@@ -20,6 +19,7 @@ int main(void)
 	while((ch = getch()) != 'q') {
 		clock_t start = clock();
 
+		show_info(world);
 		attron(COLOR_PAIR(1));
 		draw_world(world);
 		attroff(COLOR_PAIR(1));
@@ -36,9 +36,14 @@ int main(void)
 	return 0;
 }
 
-void show_info(void) {
+void show_info(bool *world)
+{
+	int num_alive = 0, n;
+	for(n = 0; n < NUM_CELLS; n++)
+		num_alive = world[n] ? num_alive + 1 : num_alive;
 	attron(COLOR_PAIR(2) | A_BOLD);
 	mvprintw(LINES - 1, 3, " Press q to exit ");
+	mvprintw(LINES - 1, (WIDTH-16) / 2, " Cells alive: %d ", num_alive);
 	attroff(COLOR_PAIR(2) | A_BOLD);
 }
 
