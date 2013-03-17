@@ -82,7 +82,7 @@ void update_world(bool *world)
 	for(y = 0; y < _height; y++) {
 		for(x = 0; x < _width; x++) {
 			int neighbours = count_neighbours(world, x, y);
-			new_world[pos(x, y)] = neighbours == 2 && world[pos(x, y)]
+			new_world[POS(x, y)] = neighbours == 2 && world[POS(x, y)]
 				|| neighbours == 3;
 		}
 	}
@@ -106,10 +106,6 @@ int count_neighbours(const bool *world, const int x, const int y)
 
 bool get_cell(const bool *world, const int x, const int y)
 {
-	return world[pos(x,y)];
+	return world[POS(x, y)];
 }
 
-int pos(int x, int y)
-{
-	return y * _width + x;
-}
