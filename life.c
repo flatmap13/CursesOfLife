@@ -18,6 +18,9 @@ int main(void)
 	int ch;
 	while((ch = getch()) != 'q') {
 		clock_t start = clock();
+		
+		if(ch == 'r')
+			init_world(world);
 
 		show_info(world);
 		attron(COLOR_PAIR(1));
@@ -43,7 +46,8 @@ void show_info(bool *world)
 		num_alive = world[n] ? num_alive + 1 : num_alive;
 	attron(COLOR_PAIR(2) | A_BOLD);
 	mvprintw(LINES - 1, 3, " Press q to exit ");
-	mvprintw(LINES - 1, (WIDTH-16) / 2, " Cells alive: %d ", num_alive);
+	mvprintw(LINES - 1, (WIDTH - 18) / 2, " Cells alive: %d ", num_alive);
+	mvprintw(LINES - 1, WIDTH - 21, " Press r to reset ");
 	attroff(COLOR_PAIR(2) | A_BOLD);
 }
 
