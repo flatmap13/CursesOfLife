@@ -49,7 +49,7 @@ void lock_fps(clock_t start, int fps)
 {
 	struct timespec delay;
 	delay.tv_sec = 0;
-	delay.tv_nsec = 1000000000/fps - (clock() - start) * 1000000000 / CLOCKS_PER_SEC;
+	delay.tv_nsec = 1000000000 / fps - (clock() - start) * 1000000000 / CLOCKS_PER_SEC;
 	nanosleep(&delay, NULL);
 }
 
